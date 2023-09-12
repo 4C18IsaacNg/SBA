@@ -1,0 +1,76 @@
+program EWA_1;
+
+uses SysUtils, FGL;
+
+
+
+{function CountROS(text: string): Integer;
+var
+  ros: integer;
+  i: integer;
+  cc, nc, pc: char;
+begin
+  ros := 0;
+
+  for i:= 1 to length(text) do
+  begin
+    cc := texti[i];
+    nc := #0;
+    pc := #0;
+
+    if i < length(text) then
+       nc := text[i+1];
+    if i > 1 then
+       pc := text[i-1];
+
+    if (cc = ',') then
+       if
+
+
+  end;
+end;  }
+
+var
+  A, B: TStringArray;
+  inputStr, sentence, word: string;
+  run, count: integer;
+  i: integer;
+  match: Boolean;
+
+begin
+  run := 0;
+  writeln('Input a text: ');
+  readln(inputStr);
+  A := TStringArray.Create;
+  try
+    A.AddRange(inputStr.Split('.'));
+
+    for sentence in A do
+    begin
+     writeln(sentence);
+     { B := sentence.Split(' ');
+      count := 0;
+      i := 0;
+      while i <= B.Count - 1 do
+            writeln(B[i]); }
+  finally
+     A.Free;
+  end;
+
+
+      {for word in B do
+        begin
+           writeln(word); }
+           {match := BCRW.SrchL(word); }
+
+
+           {while i <= length(B) - 1
+                if not match then
+
+        end; }
+
+    end;
+  writeln();
+  {writeln('Number of run-on sentence: ',run);}
+  Readln;
+end.  ]                                                
