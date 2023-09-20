@@ -1,0 +1,71 @@
+unit CommaRuleLibrary ;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+type
+  CRL = class
+  private
+    BCRW: array of string;
+    FCRW: array of string;
+  public
+    constructor create;
+    function SrchAC(const word: string): Boolean;
+    function SrchBC(const word: string): Boolean;
+  end;
+
+implementation
+
+uses
+  Classes, SysUtils;
+
+constructor CRL.Create;
+begin
+  BCRW := [
+           'and', 'but', 'for', 'nor', 'or', 'so',
+           'when', 'where', 'which', 'who', 'whom', 'whose', 'yet'
+          ];
+  FCRW := [
+           'After', 'Before', 'Having', 'To', 'When'
+          ];
+end;
+
+function CRL.SrchAC(const word: string): Boolean;
+
+var
+   left, right, mid: integer;
+begin
+   left := 0;
+   right := length(BCRW) - 1;
+
+   while left <= right do
+   begin
+     mid := (left + right) div 2;
+
+     if BCRW[mid] = word then
+        exit(True)
+     else if BCRW[mid] < word then
+        left := mid + 1
+     else
+        right := mid - 1;
+   end;
+
+   Result := False;
+end;
+
+function CRL.SrchBC(const word: string): Boolean;
+
+var
+   j: integer;
+begin
+   for j := 0 to length(FCRW) - 1 do
+   begin
+      if FCRW[j] = word then
+         exit(true)
+   end;
+
+   Result := False;
+end;
+
+end.                       
