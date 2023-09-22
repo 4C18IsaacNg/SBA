@@ -1,67 +1,27 @@
 program EWA_1;
 
 uses
-  SysUtils, Classes, CommaRuleLibrary, unit1, unit2;
+    SysUtils, Classes, Counter;
 
 var
-  A: TStringArray;
-  S: array of string;
-  inputStr: string;
-  i, n, x, b: integer;
-  count: integer;
-  BC: Boolean;
-  CRLibrary: CRL;
+   A: TStringArray;
+   S: array of string;
+   inputStr: string;
+   i, roc: integer;
 
 begin
-  writeln('Input a text: ');
-  readln(inputStr);
+     writeln('Input a text: ');
+     readln(inputStr);
+     A := inputStr.Split(' ');
+     SetLength(S, Length(A));
+     roc := CountRunOnSentences(inputStr);
 
-  A := inputStr.Split(' ');
-  SetLength(S, Length(A));
-  n := 0;
-  x := 1;
-  b := 0;
-  count := 0;
-  CRLibrary := CRL.Create;
+     for i := 0 to Length(A) - 1 do
+         S[i] := A[i];
 
-  for i := 0 to Length(A) - 1 do
-    S[i] := A[i];                           {linked-list}
+     writeln();
+     writeln('Number of run-on sentences: ',roc);
 
-  for i := n to Length(A) - 1 do
-  begin
-       if pos('.',S[i]) > 0 then
-       begin
-          if i <> Length(A) - 1 then
-          begin
-                n := i + 1;
-                x := x + 1;
-                b := n;
-          end;
-       end;
 
-       if count < x then
-       begin
-          if pos(',',S[i]) > 0 then
-          begin
-               BC := false;
-               for  n := b to i - 1 do
-               begin
-                 if CRLibrary.SrchBC(S[n]) then
-                 begin
-                    BC := true;
-                    Break;
-                 end;
-               end;
-               b := i + 1;
-               if not BC and not CRLibrary.SrchAC(S[i+1]) and pos('ing',S[i+1])then
-                  count := count + 1;
-          end;
-       end;
-  end;
-
-  writeln();
-  writeln('Number of run-on sentences: ',count);
-
-  CRLibrary.Free;
-  Readln;
-end.                            
+     Readln;
+end.              
