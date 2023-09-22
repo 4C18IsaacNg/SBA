@@ -1,0 +1,74 @@
+unit Counter;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+function CountRunOnSentences(const inputStr: string): integer;
+
+implementation
+
+uses
+    SysUtils, Classes, CommaRuleLibrary;
+
+function CountRunOnSentences(const inputStr: string): integer;
+var
+   A: TStringArray;
+   S: array of string;
+   i, n, x, b: integer;
+   count: integer;
+   BC: Boolean;
+   CRLibrary: CRL;
+
+begin
+     A := inputStr.Split(' ');
+     SetLength(S, Length(A));
+     n := 0;
+     x := 1;
+     b := 0;
+     count := 0;
+     CRLibrary := CRL.Create;
+
+     for i := 0 to Length(A) - 1 do
+         S[i] := A[i];
+
+     for i := n to Length(A) - 1 do
+     begin
+          if (pos('.',S[i]) > 0) or (pos('!',S[i]) > 0) or (pos('?',S[i]) > 0 ) then
+          begin
+               if i <> Length(A) - 1 then
+               begin
+                    n := i + 1;
+                    x := x + 1;
+                    b := n;
+               end;
+          end;
+
+          if count < x then
+          begin
+               if pos(',',S[i]) > 0 then
+               begin
+                    BC := false;
+                    for  n := b to i - 1 do
+                    begin
+                         if CRLibrary.SrchBC(S[n]) then
+                            begin
+                                 BC := true;
+                                 Break;
+                            end;
+                    end;
+                    b := i + 1;
+                    if pos(',',S[i+1]) > 0 then
+                       b := i + 2;
+                    if not ( BC or CRLibrary.SrchAC(S[i+1]) or ( pos('ing',S[i+1])> 0 ) or ( pos(',',S[i+1]) > 0 ))then
+                       count := count + 1;
+               end;
+          end;
+     end;
+     CRLibrary.Free;
+     Result := count;
+end;
+
+
+end.
+                                                              
