@@ -3,25 +3,37 @@ program EWA_1;
 uses
     SysUtils, Classes, Counter;
 
+type
+    txt = array [0..2000] of string[50];
+
+const
+  Ting = 'mytext.txt';
+
 var
-   A: TStringArray;
-   S: array of string;
-   inputStr: string;
+   A: textFile;
+   S: TStringArray;
    i, roc: integer;
+   writing: string;
 
 begin
-     writeln('Input a text: ');
-     readln(inputStr);
-     A := inputStr.Split(' ');
-     SetLength(S, Length(A));
-     roc := CountRunOnSentences(inputStr);
+     assignfile(A, Ting);
+     reset(A);
 
-     for i := 0 to Length(A) - 1 do
-         S[i] := A[i];
+
+     while not EOF(A) do
+     begin
+          readln(A, writing);
+
+     end;
+     writeln('This is your writing: ');
+     writeln(writing);
+
+     S:=writing.split(' ');
+     roc := CountRunOnSentences(S);
 
      writeln();
      writeln('Number of run-on sentences: ',roc);
 
 
      Readln;
-end.              
+end.                                  
