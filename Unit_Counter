@@ -4,39 +4,37 @@ unit Counter;
 
 interface
 
-function CountRunOnSentences(const inputStr: string): integer;
-
-implementation
 
 uses
     SysUtils, Classes, CommaRuleLibrary;
 
-function CountRunOnSentences(const inputStr: string): integer;
+type
+    txt = array [0..2000] of string[50];
+
+function CountRunOnSentences(const S: TStringArray): integer;
+
+implementation
+
+
+function CountRunOnSentences(const S: TStringArray): integer;
 var
-   A: TStringArray;
-   S: array of string;
    i, n, x, b: integer;
    count: integer;
    BC: Boolean;
    CRLibrary: CRL;
 
 begin
-     A := inputStr.Split(' ');
-     SetLength(S, Length(A));
      n := 0;
      x := 1;
      b := 0;
      count := 0;
      CRLibrary := CRL.Create;
 
-     for i := 0 to Length(A) - 1 do
-         S[i] := A[i];
-
-     for i := n to Length(A) - 1 do
+     for i := n to Length(S) - 1 do
      begin
           if (pos('.',S[i]) > 0) or (pos('!',S[i]) > 0) or (pos('?',S[i]) > 0 ) then
           begin
-               if i <> Length(A) - 1 then
+               if i <> Length(S) - 1 then
                begin
                     n := i + 1;
                     x := x + 1;
@@ -71,4 +69,4 @@ end;
 
 
 end.
-                                                              
+                    
