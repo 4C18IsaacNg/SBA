@@ -8,9 +8,6 @@ interface
 uses
     SysUtils, Classes, CommaRuleLibrary;
 
-type
-    txt = array [0..2000] of string[50];
-
 function CountRunOnSentences(const S: TStringArray): integer;
 
 implementation
@@ -69,4 +66,4 @@ end;
 
 
 end.
-                    
+                       
