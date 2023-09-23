@@ -1,0 +1,142 @@
+unit GrammarLibrary;
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+    Classes, SysUtils;
+
+type
+  GML = class
+  private
+    PRTV: TStringArray;
+    PRSTV: TStringArray;
+    PATV: TStringArray;
+  public
+    constructor create;
+    function SrchPRV(const word: string): Boolean;
+    function SrchPRSV(const word: string): Boolean;
+    function SrchPAV(const word: string): Boolean;
+  end;
+
+implementation
+
+constructor GML.Create;
+
+var
+   PRTVF, PRSTVF, PATVF: textfile;
+   PRV, PRSV, PAV: string;
+   PRLC, PRSLC, PALC: integer;
+
+begin
+     assignfile(PRTVF, 'PresenttenseLib.txt');
+     reset(PRTVF);
+     PRLC := 0;
+
+     while not EOF(PRTVF) do
+     begin
+          readln(PRTVF, PRV);
+          SetLength(PRTV, PRLC + 1);
+          PRTV[PRLC] := PRV;
+          Inc(PRLC);
+     end;
+
+     assignfile(PRSTVF, 'PresenttenseLib.txt');
+     reset(PRSTVF);
+     PRSLC := 0;
+
+     while not EOF(PRSTVF) do
+     begin
+          readln(PRSTVF, PRSV);
+          SetLength(PRSTV, PRSLC + 1);
+          PRTV[PRSLC] := PRSV;
+          Inc(PRSLC);
+     end;
+
+     assignfile(PATVF, 'PasttenseLib.txt');
+     reset(PATVF);
+     PALC := 0;
+
+     while not EOF(PATVF) do
+     begin
+          readln(PATVF, PAV);
+          SetLength(PATV, PLC + 1);
+          PATV[PALC] := PAV;
+          Inc(PALC);
+     end;
+
+end;
+
+function SrchPRV(const word: string): Boolean;
+
+var
+   left, right, mid: integer;
+
+begin
+     left := 0;
+     right := length(PRTV) - 1;
+
+     while left <= right do
+     begin
+          mid := (left + right) div 2;
+
+          if PRTV[mid] = word then
+             exit(True)
+          else if PRTV[mid] < word then
+               left := mid + 1
+          else
+              right := mid - 1;
+   end;
+
+   Result := False;
+end;
+
+function SrchPRSV(const word: string): Boolean;
+
+var
+   left, right, mid: integer;
+
+begin
+     left := 0;
+     right := length(PRSTV) - 1;
+
+     while left <= right do
+     begin
+          mid := (left + right) div 2;
+
+          if PRSTV[mid] = word then
+             exit(True)
+          else if PRSTV[mid] < word then
+               left := mid + 1
+          else
+              right := mid - 1;
+   end;
+
+   Result := False;
+end;
+
+function SrchPAV(const word: string): Boolean;
+
+var
+   left, right, mid: integer;
+
+begin
+     left := 0;
+     right := length(PATV) - 1;
+
+     while left <= right do
+     begin
+          mid := (left + right) div 2;
+
+          if PATV[mid] = word then
+             exit(True)
+          else if PATV[mid] < word then
+               left := mid + 1
+          else
+              right := mid - 1;
+   end;
+
+   Result := False;
+end;
+
+end.              
