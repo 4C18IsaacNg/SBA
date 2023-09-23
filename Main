@@ -1,22 +1,16 @@
-program EWA_1;
+program EMA_1;
 
 uses
-    SysUtils, Classes, Counter;
-
-type
-    txt = array [0..2000] of string[50];
-
-const
-  Ting = 'mytext.txt';
+    SysUtils, Classes, Counter, GrammarLibrary;
 
 var
    A: textFile;
    S: TStringArray;
    i, roc: integer;
-   writing: string;
+   writing, t: string;
 
 begin
-     assignfile(A, Ting);
+     assignfile(A, 'mytext.txt');
      reset(A);
 
 
@@ -28,12 +22,11 @@ begin
      writeln('This is your writing: ');
      writeln(writing);
 
-     S:=writing.split(' ');
+     S := writing.split(' ');
      roc := CountRunOnSentences(S);
 
      writeln();
      writeln('Number of run-on sentences: ',roc);
 
-
      Readln;
-end.                                  
+end.                
