@@ -1,4 +1,4 @@
-unit Counter;
+unit RunOnSentenceCounter;
 
 {$mode ObjFPC}{$H+}
 
@@ -11,7 +11,6 @@ uses
 function CountRunOnSentences(const S: TStringArray): integer;
 
 implementation
-
 
 function CountRunOnSentences(const S: TStringArray): integer;
 var
@@ -53,8 +52,8 @@ begin
                             end;
                     end;
                     b := i + 1;
-                    if pos(',',S[i+1]) > 0 then
-                       b := i + 2;
+                    if pos(',',S[b]) > 0 then
+                       b := b + 1;
                     if not ( BC or CRLibrary.SrchAC(S[i+1]) or ( pos('ing',S[i+1])> 0 ) or ( pos(',',S[i+1]) > 0 ))then
                        count := count + 1;
                end;
@@ -66,4 +65,4 @@ end;
 
 
 end.
-                       
+                                                     
