@@ -1,32 +1,75 @@
-program EMA_1;
+program EWA_Final;
 
 uses
-    SysUtils, Classes, Counter, GrammarLibrary;
+    SysUtils, Classes, LCLIntf, RunOnSentenceCounter, GrammarChecking, GoalSettingSystem;
 
 var
    A: textFile;
    S: TStringArray;
-   i, roc: integer;
-   writing, t: string;
+   i, roc, gm, CN, GN: integer;
+   writing, t, L: string;
+   FD, FileName: string;
 
 begin
-     assignfile(A, 'mytext.txt');
+     writeln('Welcome User!');
+     writeln('Thank you for using EMA.');
+     writeln();
+     writeln('Before we start, please check agian tha you have put your writing .txt in the same folder as this EMA .exe.');
+     writeln('txt in the right folder?(Y/N) :');
+     readln(FD);
+     if FD = 'N' then
+     begin
+          writeln('<<Please put your writing txt into the folder before running the EMA again>>');
+          writeln();
+          writeln('Exiting the program........');
+          readln();
+          Halt;
+     end
+     else if FD = 'Y' then
+     begin
+        writeln('Please input the file name(without .txt) :');
+        readln(FileName);
+     end;
+
+     assignfile(A, (FileName+'.txt'));
      reset(A);
-
-
      while not EOF(A) do
      begin
           readln(A, writing);
-
      end;
+
+     writeln();
      writeln('This is your writing: ');
      writeln(writing);
+     writeln();
 
      S := writing.split(' ');
      roc := CountRunOnSentences(S);
+     CN := Crecordinput(roc);
+     gm := CheckGrammarMistakes(S);
+     GN := Grecordinput(gm);
 
      writeln();
      writeln('Number of run-on sentences: ',roc);
+     writeln('Nummber of grammar mistakes: ',gm);
 
-     Readln;
-end.                
+     writeln();
+     SetGoal(CN,GN);
+
+     writeln('Calculating score......');
+     sleep(2000);
+     writeln();
+     ptcounting(roc, gm);
+
+     writeln('This is the end of the analysing.');
+     writeln('Thank you for using our service.');
+     writeln('Hope you have a great day!');
+
+     write('Do you want to exit EWA?(Y/N): ');
+     Readln(L);
+     if L = Y then
+     writeln('Exiting......');
+     Sleep(3000);
+     Halt;
+
+end.                                                         
