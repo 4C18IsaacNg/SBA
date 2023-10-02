@@ -1,0 +1,195 @@
+unit GoalSettingSystem;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils;
+function Crecordinput(const C: integer): integer;
+function Grecordinput(const G: integer): integer;
+function SetGoal(const cg: integer; const gg: integer): boolean;
+function ptcounting(const C: integer; const G: integer): integer;
+
+implementation
+var
+   i, CN, GN: integer;
+   CL, GL, CGL, GGL: array[1..500] of integer;
+   cr, gr, cgr, ggr, ptr, sr: textfile;
+
+function Crecordinput(const C: integer): integer;
+begin
+     assign(cr, 'CRecord.txt');
+     append(cr);
+     writeln(cr, C);
+     reset(cr);
+
+     i := 0;
+     while not eof(cr) do
+     begin
+          i := i + 1;
+          read(cr, CL[i]);
+     end;
+
+     close(cr);
+     CN := i;
+     Result := CN;
+
+end;
+
+function Grecordinput(const G: integer): integer;
+begin
+     assign(gr, 'GRecord.txt');
+     append(gr);
+     writeln(gr, G);
+     reset(gr);
+
+     i := 0;
+     while not eof(gr) do
+     begin
+          i := i + 1;
+          read(gr, GL[i]);
+     end;
+
+     close(gr);
+     GN := i;
+     Result := GN;
+
+end;
+
+function SetGoal(const CM: integer; const GM: integer): boolean;
+var
+   tpt: integer;
+begin
+     result := false;
+     if (CM = 0) and (GM = 0) then
+     begin
+          writeln('To effectively improve your English writing, setting goals is the best way.');
+          writeln('[ Goals ]');
+
+          write('max. number of run-on sentences :');
+          readln(cg);
+          assign(cgr, 'CGRecord.txt');
+          append(cgr);
+          writeln(cgr, cg);
+          close(cgr);
+
+          write('max. number of grammar mistakes :');
+          readln(gg);
+          assign(ggr, 'GGRecord.txt');
+          append(ggr);
+          writeln(ggr, gg);
+          close(ggr);
+     end;
+     else if (CM mod 3 = 0) and (GM mod 3 = 0) then
+     begin
+          writeln();
+          wirteln('Now, let us adjust your Goals.');
+          writeln('The previous goals:')
+          writeln('max. number of run-on sentences :',cg);
+          writeln('max. number of grammar mistakes :',gg);
+          writeln();
+
+          assgin(sr);
+          reset(sr);
+          while not eof(sr) do
+          begin
+               readln(sr, tpt);
+               if tpt = 6 then
+               begin
+                  writeln('You have done well in the latest 3 writing!)
+                  writeln('You can set a higher goal!')
+                  writeln();
+
+                  write('max. number of run-on sentences :');
+                  readln(cg);
+                  assign(cgr, 'CGRecord.txt');
+                  append(cgr);
+                  writeln(cgr, cg);
+                  close(cgr);
+
+                  write('max. number of grammar mistakes :');
+                  readln(gg);
+                  assign(ggr, 'GGRecord.txt');
+                  append(ggr);
+                  writeln(ggr, gg);
+                  close(ggr);
+               end
+
+              else if tpt < 3 then
+                   begin
+                        writeln('You have tried your best but it seems that you are too harsh to yourself.');
+                        writeln('You may set the goals easier.');
+                        writeln('It is important to set goals that follows your own pace!');
+
+                        write('max. number of run-on sentences :');
+                        readln(cg);
+                        assign(cgr, 'CGRecord.txt');
+                        append(cgr);
+                        writeln(cgr, cg);
+                        close(cgr);
+
+                        write('max. number of grammar mistakes :');
+                        readln(gg);
+                        assign(ggr, 'GGRecord.txt');
+                        append(ggr);
+                        writeln(ggr, gg);
+                        close(ggr);
+                   end
+
+              else
+              begin
+                  writeln('You did good in the latest 3 wrriting! But you still need a bit more practice before you move on.')
+                  writeln('Keep working on the same goal.');
+              end;
+          end;
+     end;
+     result := true;
+end;
+
+function ptcounting(const C: integer; const G: integer);
+var
+   pt, sum, count: integer;
+begin
+     pt :=  0;
+     if C <= cg and G <= gg then
+        pt := pt + 2;
+     else if ((C <= cg) and not(G <= gg)) or (not(C <= cg) and (G <= gg)) then
+             pt := pt + 1;
+     writeln();
+     writeln('You have got '+pt+' point(s) for this writing.');
+
+     assign(ptr, 'point.txt')'
+     append(ptr);
+     writeln(ptr, pt);
+
+     reset(ptr);
+     sum := 0;
+     count := 0;
+     while not eof(ptr) do
+     begin
+          readln(ptr, pt);
+          sum := sum + pt;
+          Inc(count);
+
+          if count = 3 then
+          begin
+               writeln('You have written 3 pieces of writing already! It is time to do a summarize.');
+               writeln('The full score of the 3 writing is 6 points and this is your score: '+sum+'point(s)');
+
+               assign(sr, 'score.txt');
+               rewrite(sr);
+               write(sr, sum);
+
+               sum := 0;
+               count := 0;
+               rewrite(ptr);
+               close(sr);
+
+               SetGoal(3,3);
+          end;
+     end;
+
+     close(ptr);
+end.
+                                              
